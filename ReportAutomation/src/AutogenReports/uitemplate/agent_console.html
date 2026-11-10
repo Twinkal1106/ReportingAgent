@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FedEx Reporting Agent</title>
+    <link rel="stylesheet" href="/static/css/fedex_agent.css?v=8">
+</head>
+
+<body>
+
+<div class="header">
+    <div class="header-title">
+        <span class="brand-logo"><span class="brand-fed">Fed</span><span class="brand-ex">Ex</span></span>
+        <span>Reporting <span class="header-sub">Agent</span></span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <button id="new-chat-btn" type="button" onclick="newChat()" class="header-action-btn" title="Start fresh conversation">
+            <span>🔄 New Chat</span>
+        </button>
+        <div class="header-user" id="header-user-btn" title="Click to change display name" style="cursor: pointer;">
+            <span class="user-greeting" id="user-greeting-text">Hi, {{ user_name | default('Twinkal') }}</span>
+            <span class="user-badge" id="user-badge-initial" title="{{ user_name | default('Twinkal') }}">{{ user_initial | default('T') }}</span>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div id="report-container" class="chat-thread">
+        <div class="welcome-banner">
+            <div class="welcome-avatar">🤖</div>
+            <div class="welcome-text">
+                <h3>Hi <span id="welcome-user-name">{{ user_name | default('there') }}</span> 👋 Welcome to your FedEx Reporting Agent</h3>
+                <p>How can I assist you today? Ask me to generate standard or consolidated reports, query Cassandra, or create customized PDF reports.</p>
+            </div>
+        </div>
+    </div>
+    <div class="quick-prompts">
+        <span class="quick-prompt-label">Quick actions:</span>
+        <button type="button" class="chip" data-prompt="I want to generate a report">📄 Generate Report</button>
+        <button type="button" class="chip" data-prompt="Fetch non-delivered tracking IDs for Facility 88">📋 Non-Delivered for Facility 88 (Today)</button>
+        <button type="button" class="chip" data-prompt="Generate summary report for the last 7 days for Facility 88">📊 Summary Report for Last 7 Days</button>
+    </div>
+    <div class="input-row">
+        <input id="msg" type="text" placeholder="🤖 Ask to generate reports, fetch data, or create PDF reports..." autocomplete="off" />
+        <button id="send-btn" type="button" onclick="generate()">
+            <span>Send</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+        </button>
+    </div>
+   
+</div>
+
+<footer class="fedex-footer">
+    <div class="footer-content">
+        <span class="footer-text">&copy; 2026 FedEx Corporation. All rights reserved.</span>
+    </div>
+</footer>
+
+<script src="/static/js/app.js?v=3"></script>
+
+</body>
+</html>

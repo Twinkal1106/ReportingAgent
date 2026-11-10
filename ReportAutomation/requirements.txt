@@ -1,0 +1,35 @@
+autogen-agentchat        # Autogen AgentChat helpers (AssistantAgent and agent orchestration)
+autogen-core             # Core Autogen primitives and orchestration utilities
+autogen-ext              # Autogen extensions (model clients, integrations)
+asyncio                  # Python stdlib async I/O (stdlib; included with Python)
+dotenv                   # Alias name; loads .env files into the environment (python-dotenv)
+openai                   # OpenAI Python client for calling models
+tiktoken                 # Tokenization utilities for OpenAI models
+pydantic>=1.10.9,<2.0    # Data validation and settings (used by FastAPI models)
+ 
+# ===== FastAPI backend =====
+fastapi                  # Modern async web framework used for API endpoints
+uvicorn[standard]        # ASGI server to run FastAPI apps (development & production)
+streamlit                # Streamlit UI framework for interactive reporting & dashboards
+ 
+# ===== UI templates =====
+jinja2                   # Templating engine for rendering HTML templates
+ 
+# ===== Config management =====
+python-dotenv            # Load environment variables from a .env file
+ 
+python-multipart         # Parse multipart/form-data (file uploads) in FastAPI
+ 
+httpx                    # Async HTTP client used for outbound requests
+requests                 # Synchronous HTTP client (utility/compat)
+mcp                      # Model Context Protocol client for centralized API access
+
+# ===== PDF generation =====
+reportlab                # PDF generation library with full customization
+pillow                   # Image processing (required for reportlab images)
+pyasyncore                # asyncore backport for Python 3.12 (required by cassandra-driver)
+cassandra-driver         # Official DataStax Cassandra Python driver
+
+#  to run the project activate the virtual environment and run following command in terminal:
+#  .\.venv\Scripts\Activate.ps1
+# uvicorn src.AutogenReports.main:app --reload

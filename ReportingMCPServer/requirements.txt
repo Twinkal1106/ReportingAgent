@@ -1,0 +1,24 @@
+# MCP Server Requirements for Java Microservices Integration
+
+# Web Framework
+fastapi>=0.104.0                # Modern web framework for HTTP server (needs 0.104+ features)
+uvicorn>=0.24.0                 # ASGI server (needs 0.24+ for Windows compatibility)
+
+# MCP Protocol
+mcp                             # Model Context Protocol SDK
+
+# HTTP Client
+httpx                           # Async HTTP client for API requests
+requests                        # Synchronous HTTP client (fallback)
+
+# Data Validation
+pydantic>=2.0.0                 # Data validation (v2 has breaking changes from v1)
+
+# Environment Configuration
+python-dotenv                   # Load environment variables from .env file
+
+# JSON Processing
+orjson                          # Fast JSON parsing (optional, for performance)
+
+# Logging
+structlog                       # Structured logging (optional)

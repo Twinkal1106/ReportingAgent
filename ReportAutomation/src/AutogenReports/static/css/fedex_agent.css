@@ -1,0 +1,565 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f2f5;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+}
+
+   /* Header */
+   .header {
+       background: #4D148C;
+       color: white;
+       padding: 14px 28px;
+       font-size: 20px;
+       font-weight: bold;
+       display: flex;
+       align-items: center;
+       justify-content: space-between;
+       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+   }
+
+   .header-title {
+       display: flex;
+       align-items: center;
+       gap: 8px;
+   }
+
+   .brand-logo {
+       display: inline-flex;
+       align-items: center;
+       line-height: 1;
+   }
+
+   .brand-fed {
+       color: #ffffff;
+       font-weight: 800;
+       letter-spacing: -0.5px;
+   }
+
+   .brand-ex {
+       color: #FF6600;
+       font-weight: 800;
+       letter-spacing: -0.5px;
+   }
+
+   .header-sub {
+       color: #FF6600;
+       font-weight: 600;
+       margin-left: 6px;
+   }
+
+   .header-user {
+       display: inline-flex;
+       align-items: center;
+       gap: 10px;
+       font-size: 13.5px;
+       font-weight: 500;
+       color: #ffffff;
+       background: rgba(255, 255, 255, 0.14);
+       padding: 5px 6px 5px 14px;
+       border-radius: 20px;
+       border: 1px solid rgba(255, 255, 255, 0.2);
+   }
+
+   .header-action-btn {
+       background: rgba(255, 255, 255, 0.16);
+       color: #ffffff;
+       border: 1px solid rgba(255, 255, 255, 0.35);
+       border-radius: 18px;
+       padding: 6px 14px;
+       font-size: 13px;
+       font-weight: 600;
+       cursor: pointer;
+       display: inline-flex;
+       align-items: center;
+       gap: 6px;
+       transition: all 0.2s ease;
+   }
+
+   .header-action-btn:hover {
+       background: #FF6600;
+       border-color: #FF6600;
+       color: #ffffff;
+       transform: translateY(-1px);
+       box-shadow: 0 2px 8px rgba(255, 102, 0, 0.3);
+   }
+
+   .user-greeting {
+       letter-spacing: 0.2px;
+   }
+
+   .user-badge {
+       width: 26px;
+       height: 26px;
+       border-radius: 50%;
+       background: linear-gradient(135deg, #FF6600, #ff8533);
+       color: #ffffff;
+       font-weight: 700;
+       font-size: 12.5px;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+   }
+
+   .header-status {
+       display: inline-flex;
+       align-items: center;
+       gap: 8px;
+       font-size: 13px;
+       font-weight: 500;
+       background: rgba(255, 255, 255, 0.12);
+       padding: 6px 14px;
+       border-radius: 20px;
+   }
+
+   .status-indicator {
+       width: 8px;
+       height: 8px;
+       border-radius: 50%;
+       background: #10B981;
+       box-shadow: 0 0 8px #10B981;
+       animation: pulse-dot 2s infinite;
+   }
+
+   @keyframes pulse-dot {
+       0%, 100% { opacity: 1; }
+       50% { opacity: 0.4; }
+   }
+
+ .container {
+    max-width: 1080px;
+    width: 92%;
+    margin: 12px auto;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+    padding: 18px 24px 14px 24px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0; /* essential for flex child scroll containers */
+    box-sizing: border-box;
+}
+
+.container:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* ---------------- Quick Prompt Chips ---------------- */
+.quick-prompts {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    margin-bottom: 2px;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+}
+
+.quick-prompt-label {
+    font-size: 11.5px;
+    color: #4b5563;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-right: 2px;
+}
+
+/* Explicit button.chip to override global button styles */
+button.chip,
+.chip {
+    background: #f4effa !important;
+    color: #4D148C !important;
+    border: 1px solid #dcd1ed !important;
+    padding: 8px 18px !important;
+    border-radius: 20px !important;
+    font-size: 13.5px !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+    transform: none !important;
+    width: fit-content;
+}
+
+button.chip:hover,
+.chip:hover {
+    background: #4D148C !important;
+    color: #ffffff !important;
+    border-color: #4D148C !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 10px rgba(77, 20, 140, 0.25) !important;
+}
+
+button.chip:active,
+.chip:active {
+    transform: translateY(0) !important;
+}
+
+/* ---------------- Input Row ---------------- */
+.input-row {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+    margin: 8px 0 4px 0;
+    flex-shrink: 0;
+}
+
+input[type="text"] {
+    flex: 1;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 2px solid #e2e8f0;
+    font-size: 14.5px;
+    background: #ffffff;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input[type="text"]:focus {
+    border-color: #4D148C;
+    box-shadow: 0 0 0 3px rgba(77, 20, 140, 0.15);
+    outline: none;
+}
+
+#send-btn,
+button#send-btn {
+    background: linear-gradient(135deg, #FF6600, #FF8533);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 3px 10px rgba(255, 102, 0, 0.25);
+}
+
+#send-btn:hover,
+button#send-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(255, 102, 0, 0.35);
+}
+
+#send-btn:active,
+button#send-btn:active {
+    transform: translateY(0);
+}
+
+/* ---------------- Report / Chat Thread Container ---------------- */
+#report-container {
+    background-color: #fcfcfd;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 18px 20px;
+    flex: 1;
+    min-height: 180px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    scroll-behavior: smooth;
+}
+
+/* Welcome banner */
+.welcome-banner {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: #f7f4fb;
+    border-left: 4px solid #4D148C;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 8px;
+}
+
+.welcome-avatar {
+    font-size: 32px;
+    line-height: 1;
+}
+
+.welcome-text h3 {
+    margin: 0 0 6px 0;
+    color: #4D148C;
+    font-size: 16px;
+}
+
+.welcome-text p {
+    margin: 0;
+    color: #555;
+    font-size: 13.5px;
+    line-height: 1.4;
+}
+
+/* Custom scrollbar for better UX */
+#report-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+#report-container::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 4px;
+}
+
+#report-container::-webkit-scrollbar-thumb:hover {
+    background: #9ca3af;
+}
+
+/* ---------------- Threaded Chat Bubbles & Avatars ---------------- */
+.message-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    width: 100%;
+}
+
+.message-row.user-row {
+    justify-content: flex-end;
+}
+
+.message-row.agent-row {
+    justify-content: flex-start;
+}
+
+/* Avatars */
+.avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.avatar.user-avatar {
+    background: linear-gradient(135deg, #4D148C, #6c1ebf);
+    color: #ffffff;
+    order: 2;
+}
+
+.avatar.agent-avatar {
+    background: linear-gradient(135deg, #FF6600, #ff8533);
+    color: #ffffff;
+}
+
+/* Message Wrapper & Timestamps */
+.message-wrapper {
+    display: flex;
+    flex-direction: column;
+    max-width: 78%;
+}
+
+.user-row .message-wrapper {
+    align-items: flex-end;
+    order: 1;
+}
+
+.agent-row .message-wrapper {
+    align-items: flex-start;
+}
+
+.message-bubble {
+    padding: 14px 18px;
+    border-radius: 16px;
+    font-size: 14.5px;
+    line-height: 1.5;
+    word-wrap: break-word;
+    position: relative;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* User Message: FedEx Deep Purple / Gradient */
+.user-bubble {
+    background: linear-gradient(135deg, #4D148C, #5b17a5);
+    color: #ffffff;
+    border-bottom-right-radius: 4px;
+}
+
+.user-bubble a {
+    color: #ffd8a8;
+    text-decoration: underline;
+}
+
+/* Agent Message: Sleek Card / Crisp White with Purple Accent */
+.agent-bubble {
+    background: #ffffff;
+    color: #1f2937;
+    border: 1px solid #e5e7eb;
+    border-bottom-left-radius: 4px;
+}
+
+.agent-bubble h3 {
+    margin: 0 0 8px 0;
+    color: #4D148C;
+    font-size: 16px;
+}
+
+.agent-bubble p {
+    margin: 6px 0;
+}
+
+.agent-bubble a {
+    color: #4D148C;
+    font-weight: 600;
+}
+
+.agent-bubble pre {
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 12px;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 13px;
+    overflow-x: auto;
+    color: #0f172a;
+}
+
+.message-time {
+    font-size: 11px;
+    color: #9ca3af;
+    margin-top: 4px;
+    padding: 0 4px;
+}
+
+/* PDF Card Styling inside Agent Bubble */
+.pdf-card {
+    background: #faf7ff;
+    border: 1px solid #e4d8f8;
+    border-left: 4px solid #4D148C;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-top: 10px;
+}
+
+.pdf-card-title {
+    font-weight: bold;
+    color: #4D148C;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.pdf-meta {
+    font-size: 13.5px;
+    color: #374151;
+    margin: 4px 0;
+}
+
+.pdf-download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+    padding: 10px 18px;
+    background: linear-gradient(135deg, #FF6600, #ff8533);
+    color: #ffffff !important;
+    text-decoration: none !important;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 13.5px;
+    box-shadow: 0 2px 6px rgba(255, 102, 0, 0.25);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.pdf-download-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(255, 102, 0, 0.35);
+}
+
+/* Typing / Thinking indicator */
+.typing-indicator {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 4px;
+}
+
+.typing-dot {
+    width: 8px;
+    height: 8px;
+    background: #4D148C;
+    border-radius: 50%;
+    animation: typing-bounce 1.4s infinite ease-in-out both;
+}
+
+.typing-dot:nth-child(1) { animation-delay: -0.32s; }
+.typing-dot:nth-child(2) { animation-delay: -0.16s; }
+.typing-dot:nth-child(3) { animation-delay: 0s; }
+
+@keyframes typing-bounce {
+    0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+    40% { transform: scale(1); opacity: 1; }
+}
+
+.error-bubble {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-left: 4px solid #ef4444;
+    color: #991b1b;
+}
+
+/* Send button with icon */
+#send-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+   /* Footer links */
+   .links {
+       margin-top: 16px;
+       text-align: right;
+   }
+
+   .links a {
+       color: #4D148C;
+       text-decoration: none;
+       font-weight: bold;
+   }
+
+   .links a:hover {
+       text-decoration: underline;
+   }
+
+   /* Footer */
+   .fedex-footer {
+       background: #4D148C;
+       color: white;
+       padding: 8px 24px;
+       text-align: center;
+       width: 100%;
+       border-top: 2px solid #FF6600;
+       z-index: 100;
+       flex-shrink: 0;
+       box-sizing: border-box;
+   }
+
+   .footer-content {
+       display: flex;
+       justify-content: center;
+       align-items: center;
+   }
+
+   .footer-text {
+       font-size: 12.5px;
+   }

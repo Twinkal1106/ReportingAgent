@@ -1,0 +1,8 @@
+{
+  "host": "u1094754.ute.iaas.fedex.com",
+  "port": 9042,
+  "keyspace": "fxg_pd_portal_l3_ks",
+  "username": "fxg_pd_portal_l3_app",
+  "password": "FXGPDPAPPUserL3",
+  "datacenter": "fx-us-las"
+}

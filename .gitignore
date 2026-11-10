@@ -1,0 +1,50 @@
+# Environment files and credentials (CRITICAL - DO NOT COMMIT SECRETS)
+.env
+*.env
+!.env.example
+.env.local
+.env.*.local
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Archive files
+*.zip
+*.tar.gz
+*.rar
+
+# Generated reports & downloads
+*.pdf
+downloads/
+reports/
+
+# Streamlit secrets & cache
+.streamlit/secrets.toml
+
+# IDE & Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+Thumbs.db
+Desktop.ini
+.DS_Store
