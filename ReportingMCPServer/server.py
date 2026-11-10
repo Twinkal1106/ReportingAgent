@@ -7,14 +7,18 @@ Provides HTTP endpoints that proxy to FedEx API
 import os
 import logging
 from typing import Any, Optional, Dict
+from pathlib import Path
 import httpx
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
 from dotenv import load_dotenv
 import uvicorn
 
-# Load environment variables
-load_dotenv()
+# Load environment variables from server directory, workspace root, and client directory
+_SERVER_DIR = Path(__file__).resolve().parent
+load_dotenv(_SERVER_DIR / ".env")
+load_dotenv(_SERVER_DIR.parent / ".env")
+load_dotenv(_SERVER_DIR.parent / "ReportAutomation" / ".env")
 
 # Configure logging
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
@@ -22,19 +26,19 @@ logging.basicConfig(level=LOG_LEVEL, format='%(asctime)s - %(name)s - %(levelnam
 logger = logging.getLogger(__name__)
 
 # Configuration
-API_BASE_URL = os.getenv("INTERNAL_API_BASE_URL")
+API_BASE_URL = os.getenv("INTERNAL_API_BASE_URL", "").rstrip("/")
 API_KEY = os.getenv("INTERNAL_API_KEY")
 API_COOKIE = os.getenv("INTERNAL_API_COOKIE", "")
 API_TIMEOUT = int(os.getenv("API_TIMEOUT", "30"))
 MCP_SERVER_PORT = int(os.getenv("MCP_SERVER_PORT", "8001"))
 VERIFY_SSL = os.getenv("VERIFY_SSL", "true").lower() == "true"
 
-# Validate configuration
-if not API_BASE_URL:
-    raise ValueError("INTERNAL_API_BASE_URL must be set in .env file")
+if API_BASE_URL:
+    logger.info(f"HTTP MCP Server proxy target: {API_BASE_URL}")
+else:
+    logger.warning("INTERNAL_API_BASE_URL not set. Configure via .env or Streamlit secrets.")
 
 logger.info(f"HTTP MCP Server starting on port {MCP_SERVER_PORT}")
-logger.info(f"Proxying to: {API_BASE_URL}")
 logger.info(f"SSL Verification: {VERIFY_SSL}")
 
 # Create FastAPI app
@@ -66,15 +70,23 @@ async def make_api_request(
     Returns:
         dict containing the API response
     """
-    url = f"{API_BASE_URL}{endpoint}"
+    base_url = (os.getenv("INTERNAL_API_BASE_URL") or API_BASE_URL or "").rstrip("/")
+    if not base_url:
+        return {
+            "status": "error",
+            "error": "INTERNAL_API_BASE_URL is not configured. Please add it to your environment or Streamlit secrets.",
+            "status_code": 500
+        }
+    clean_endpoint = endpoint if endpoint.startswith("/") else f"/{endpoint}"
+    url = f"{base_url}{clean_endpoint}"
     
     # Prepare headers
     request_headers = {"Content-Type": "application/json"}
-    effective_key = auth_token or API_KEY
+    effective_key = auth_token or os.getenv("INTERNAL_API_KEY") or API_KEY
     if effective_key:
         request_headers["Authorization"] = f"Bearer {effective_key}"
     
-    effective_cookie = cookies or API_COOKIE
+    effective_cookie = cookies or os.getenv("INTERNAL_API_COOKIE") or API_COOKIE
     if effective_cookie:
         request_headers["Cookie"] = effective_cookie
     

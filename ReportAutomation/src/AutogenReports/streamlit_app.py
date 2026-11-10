@@ -16,13 +16,50 @@ from dotenv import load_dotenv
 # Ensure AutogenReports and parent directories are in sys.path
 CURRENT_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = CURRENT_DIR.parent.parent
-if str(PROJECT_ROOT) not in sys.path:
-    sys.path.insert(0, str(PROJECT_ROOT))
-if str(CURRENT_DIR.parent) not in sys.path:
-    sys.path.insert(0, str(CURRENT_DIR.parent))
+WORKSPACE_ROOT = PROJECT_ROOT.parent
 
+for _p in [PROJECT_ROOT, CURRENT_DIR.parent, WORKSPACE_ROOT, WORKSPACE_ROOT / "ReportingMCPServer"]:
+    _p_str = str(_p)
+    if _p_str not in sys.path:
+        sys.path.insert(0, _p_str)
+
+load_dotenv(WORKSPACE_ROOT / ".env")
 load_dotenv(PROJECT_ROOT / ".env")
-load_dotenv(PROJECT_ROOT.parent / "ReportingMCPServer" / ".env")
+load_dotenv(WORKSPACE_ROOT / "ReportingMCPServer" / ".env")
+
+# Propagate Streamlit Cloud secrets into os.environ if deployed
+try:
+    for _sec_k, _sec_v in st.secrets.items():
+        if isinstance(_sec_v, str) and _sec_k not in os.environ:
+            os.environ[_sec_k] = _sec_v
+except Exception:
+    pass
+
+# Ensure ReportingMCPServer is running on port 8001 in background daemon thread
+_mcp_server_started = False
+def ensure_mcp_server_running():
+    global _mcp_server_started
+    if _mcp_server_started:
+        return
+    import socket
+    import threading
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as _sock:
+        _sock.settimeout(0.3)
+        if _sock.connect_ex(("127.0.0.1", 8001)) == 0:
+            _mcp_server_started = True
+            return
+    try:
+        import uvicorn
+        from ReportingMCPServer.server import app as _mcp_app
+        _cfg = uvicorn.Config(app=_mcp_app, host="127.0.0.1", port=8001, log_level="warning")
+        _srv = uvicorn.Server(_cfg)
+        _t = threading.Thread(target=_srv.run, daemon=True, name="ReportingMCPServer-Daemon")
+        _t.start()
+        _mcp_server_started = True
+    except Exception as _start_err:
+        pass
+
+ensure_mcp_server_running()
 
 import importlib
 import AutogenReports.okta_auth as _okta_module

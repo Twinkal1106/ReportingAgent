@@ -1,0 +1,20 @@
+# FedEx Reporting Automation - Unified Requirements for Streamlit Deployment
+streamlit>=1.30.0
+fastapi>=0.104.0
+uvicorn>=0.24.0
+httpx>=0.25.0
+requests>=2.31.0
+python-dotenv>=1.0.0
+pydantic>=2.0.0
+openai>=1.0.0
+tiktoken>=0.5.0
+autogen-agentchat>=0.4.0
+autogen-core>=0.4.0
+autogen-ext>=0.4.0
+jinja2>=3.1.2
+python-multipart>=0.0.6
+reportlab>=4.0.0
+pillow>=10.0.0
+mcp>=1.0.0
+pyasyncore>=1.0.2; python_version >= "3.12"
+cassandra-driver>=3.28.0

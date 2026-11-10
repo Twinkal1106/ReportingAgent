@@ -9,10 +9,19 @@ import logging
 import os
 import ssl
 import struct
+import sys
 from pathlib import Path
 from typing import Optional
 
 import httpx
+
+# Ensure workspace and ReportingMCPServer are in sys.path
+_CLIENT_DIR = Path(__file__).resolve().parent
+_WORKSPACE_ROOT = _CLIENT_DIR.parent.parent.parent
+if str(_WORKSPACE_ROOT) not in sys.path:
+    sys.path.insert(0, str(_WORKSPACE_ROOT))
+if str(_WORKSPACE_ROOT / "ReportingMCPServer") not in sys.path:
+    sys.path.insert(0, str(_WORKSPACE_ROOT / "ReportingMCPServer"))
 
 # ── asyncore backport (required by cassandra-driver on Python 3.12) ──────────
 try:
@@ -357,12 +366,36 @@ async def fetch_non_delivered_tracking_ids(
                 "message": "MCP Server returned an error"
             }, indent=2)
 
-    except httpx.ConnectError:
-        return json.dumps({
-            "status": "error",
-            "error": "Cannot connect to MCP Server",
-            "message": f"MCP Server not running at {MCP_SERVER_URL}. Please start it first."
-        }, indent=2)
+    except (httpx.ConnectError, httpx.ConnectTimeout):
+        # Seamless in-process fallback when running in unified deployment without separate MCP process
+        try:
+            from ReportingMCPServer.server import make_api_request
+            endpoint_path = params.pop("endpoint", "/api/v1/packages/non-delivered")
+            direct_res = await make_api_request(
+                endpoint=endpoint_path,
+                method="GET",
+                params=params,
+                auth_token=_current_auth_token,
+                cookies=_current_cookie
+            )
+            if direct_res.get("status") == "success":
+                return json.dumps({
+                    "status": "success",
+                    "data": direct_res.get("data"),
+                    "message": "Successfully fetched tracking records via in-process MCP Server"
+                }, indent=2)
+            else:
+                return json.dumps({
+                    "status": "error",
+                    "error": direct_res.get("error", "Unknown error from in-process MCP server"),
+                    "message": "In-process MCP Server returned an error"
+                }, indent=2)
+        except Exception as fallback_err:
+            return json.dumps({
+                "status": "error",
+                "error": str(fallback_err),
+                "message": f"MCP Server unreachable at {MCP_SERVER_URL} and in-process fallback encountered error."
+            }, indent=2)
     except httpx.HTTPStatusError as e:
         return json.dumps({
             "status": "error",
